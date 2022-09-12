@@ -38,7 +38,6 @@ class DBStorage:
 
         if cls:
             query = self.__session.query(cls).all()
-            print (query)
             for key, value in query.items():
                 dict_new[key] = value
         else:
