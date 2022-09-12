@@ -38,6 +38,7 @@ class DBStorage:
 
         if cls:
             query = self.__session.query(cls).all()
+            print (query)
             for key, value in query.items():
                 dict_new[key] = value
         else:
@@ -66,3 +67,7 @@ class DBStorage:
         session_new = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(session_new)
         self.__session = Session()
+
+    def close(self):
+        """ close function """
+        self.__session.close()
