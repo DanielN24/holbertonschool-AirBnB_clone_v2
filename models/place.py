@@ -2,9 +2,9 @@
 """ Place Module for HBNB project """
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, ForeignKey, String, Float, Integer, Table
+from models.review import Review
 from os import getenv
 from sqlalchemy.orm import relationship
-from models.review import Review
 
 
 class Place(BaseModel, Base if (getenv('HBNB_TYPE_STORAGE') == "db")
@@ -26,16 +26,15 @@ class Place(BaseModel, Base if (getenv('HBNB_TYPE_STORAGE') == "db")
         reviews = relationship('Review', backref='place',
                                cascade='all, delete')
 
-        place_amenity = Table('place_amenity', Base.metadata,
-                              Column('place_id', String(60), ForeignKey
-                                     ('places.id'), primary_key=True,
-                                     nullable=False),
-                              Column('amenity_id', String(60),
-                                     ForeignKey('amenities.id'),
-                                     primary_key=True, nullable=False))
-        amenities = relationship('Amenity', secondary=place_amenity,
-                                 viewonly=False)
-
+        place_amenity = Table('place_amenity', Base.metadata, Column(
+            'place_id', String(60), ForeignKey(
+                'places.id'), primary_key=True, nullable=False),
+            Column('amenity_id', String(60), ForeignKey(
+                'amenities.id'), primary_key=True,
+            nullable=False)
+        )
+        amenities = relationship(
+            'Amenity', secondary=place_amenity, viewonly=False)
     else:
         city_id = ""
         user_id = ""
@@ -61,10 +60,12 @@ class Place(BaseModel, Base if (getenv('HBNB_TYPE_STORAGE') == "db")
 
         @property
         def amenities(self):
+            """amenities getter"""
             if len(self.amenity_ids) > 0:
                 return (self.amenity_ids)
 
         @amenities.setter
         def amenities(self, obj):
+            """Amenities setter"""
             if obj.__class__.__name__ == 'Amenity':
                 self.amenity_ids.append(obj)
