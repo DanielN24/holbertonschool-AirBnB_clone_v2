@@ -8,8 +8,8 @@ from sqlalchemy import Column, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 
 
-class State(BaseModel, Base if (getenv(
-            'HBNB_TYPE_STORAGE') == "db") else object):
+class State(BaseModel, Base if (getenv('HBNB_TYPE_STORAGE') == "db")
+            else object):
     """ State class """
     if getenv("HBNB_TYPE_STORAGE") != 'db':
         name = ""
