@@ -7,10 +7,12 @@ from sqlalchemy.orm import relationship
 from models.review import Review
 
 
-class Place(BaseModel, Base if (getenv('HBNB_TYPE_STORAGE') == "db") else object):
+class Place(BaseModel, Base if (getenv('HBNB_TYPE_STORAGE') == "db")
+            else object):
     """ A place to stay """
-    __tablename__ = 'places'
+
     if (getenv('HBNB_TYPE_STORAGE') == 'db'):
+        __tablename__ = 'places'
         city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
         user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
         name = Column(String(128), nullable=False)
@@ -60,7 +62,7 @@ class Place(BaseModel, Base if (getenv('HBNB_TYPE_STORAGE') == "db") else object
         @property
         def amenities(self):
             if len(self.amenity_ids) > 0:
-                return(self.amenity_ids)
+                return (self.amenity_ids)
 
         @amenities.setter
         def amenities(self, obj):
