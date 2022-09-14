@@ -18,9 +18,9 @@ def HBNB():
 
 @app.route("/c/<text>", strict_slashes=False)
 def c(text):
-    """ function that display Hello HBNB! """
-    replaces = text.replace("_", " ")
-    return ("c {}".format(replaces))
+    """Displays 'C' followed by the value of <text>."""
+    text = text.replace("_", " ")
+    return "C {}".format(text)
 
 
 if __name__ == '__main__':
