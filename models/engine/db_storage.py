@@ -1,7 +1,9 @@
+#!/usr/bin/python3
+"""This module defines a class to manage file storage for hbnb clone"""
 from models.base_model import BaseModel, Base
 from sqlalchemy import create_engine, MetaData
+from sqlalchemy.orm import scoped_session, sessionmaker
 from os import getenv
-from sqlalchemy.orm import sessionmaker, scoped_session
 from models.user import User
 from models.place import Place
 from models.state import State
@@ -11,10 +13,9 @@ from models.review import Review
 
 
 class DBStorage:
-    """Private class attributes"""
+    """New bdstorage engine"""
     __engine = None
     __session = None
-
     classes = {
         'BaseModel': BaseModel, 'User': User, 'Place': Place,
         'State': State, 'City': City, 'Amenity': Amenity,
@@ -47,25 +48,26 @@ class DBStorage:
         return obj_dict
 
     def new(self, obj):
-        """Public instance method new"""
+        """New method"""
         self.__session.add(obj)
 
     def save(self):
-        """Public instante method save"""
+        """Save method"""
         self.__session.commit()
 
     def delete(self, obj=None):
-        """public instance method delete"""
+        """Delete method"""
         if obj:
             self.__session.delete(obj)
 
     def reload(self):
-        """Public instance method reload"""
+        """Reload method"""
         Base.metadata.create_all(self.__engine)
-        session_new = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        Session = scoped_session(session_new)
+        session_factory = sessionmaker(
+            bind=self.__engine, expire_on_commit=False)
+        Session = scoped_session(session_factory)
         self.__session = Session()
 
     def close(self):
-        """ close function """
-        self.__session.remove()
+        """Reload method"""
+        self.__session.close()
